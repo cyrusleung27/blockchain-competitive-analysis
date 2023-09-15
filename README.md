@@ -1,9 +1,5 @@
 # blockchain-competitive-analysis
 
-# Code Documentation
-
-This documentation provides an overview of the Python code you've provided. The code appears to be related to data analysis and visualization, specifically for analyzing blockchain data from various chains like Arbitrum, Optimism, and Polygon. Below, I'll break down the code into sections and provide explanations for each part.
-
 ### Importing Libraries
 
 The code begins by importing several Python libraries that are commonly used for data analysis and visualization. These libraries include Pandas, NumPy, Seaborn, Matplotlib, Datetime, Glob, Plotly, Scipy, OS, Requests, tqdm, and dotenv. Here's a brief explanation of their usage:
@@ -243,7 +239,6 @@ Plot number of one-time,... users, specifying X time users.
 
 Plot percentage of total users who are one-time, etc. users, specifying X time users.
 ```
-Here's a GitHub documentation in markdown format for your code:
 
 ```markdown
 # Protocol User Retention
@@ -320,7 +315,6 @@ userretention_op = userretention_mom(all_op)
 ```python
 plot_userretention(userretention_op, title='Optimism')
 ```
-Here's a GitHub documentation in markdown format for your code:
 
 ```markdown
 # Uniswap Data on Optimism and Arbitrum
@@ -421,5 +415,275 @@ protpop_arb = protocol_popularity(uniswap_arb, 100)
 plot_protocolpopularity(protpopt10_arb, 'Uniswap (Arbitrum)')
 plot_protocolpopularity(protpop_arb, 'Uniswap (Arbitrum)')
 ```
+
+```markdown
+# Level Finance (on BNB)
+
+## Data Retrieval and Preprocessing
+
+```python
+# Get the protocol Level Finance's data and perform data aggregation and cleaning
+path = 'Chains Data/level_finance'
+
+level = agg_dfs(path)
+level = clean_raw_dune(level)
+```
+
+## Transactions
+
+```python
+# Calculate and plot transactions per day for Level Finance on BNB
+level_txs = protocol_txs(level)
+plot_protocoltxs(level_txs, 'Level Finance (BNB)', datetime.datetime(2022, 12, 26))
+```
+
+## Most Used Contracts
+
+```python
+# Plot the distribution of most used contracts for Level Finance on BNB
+plot_contractsdistribution(level, 'Level Finance', 'BNB')
+```
+
+## Number of Unique Addresses per Day
+
+```python
+# Calculate and plot the number of unique addresses per day for Level Finance on BNB
+level_unique = protocol_uniqueaddresses(level)
+plot_uniqueaddresses(level_unique, 'Level Finance (BNB)')
+```
+
+# GMX (on Arbitrum)
+
+## Data Retrieval and Preprocessing
+
+```python
+# Get the protocol GMX's data and perform data retrieval and preprocessing
+path = 'Chains Data/gmx'
+
+gmx = pd.read_csv(path + '/gmx.csv')
+gmx = gmx.drop(['value', 'gas_limit', 'effective_gas_price'], axis=1)
+gmx['block_time'] = gmx['block_time'].map(lambda x: datetime.datetime.strptime(x, '%Y-%m-%d'))
+```
+
+## Transactions
+
+```python
+# Calculate and plot transactions per day for GMX on Arbitrum
+gmx_txs = protocol_txs(gmx)
+plot_protocoltxs(gmx_txs, 'GMX (Arbitrum)', datetime.datetime(2021, 9, 1))
+```
+
+## Most Used Contracts
+
+```python
+# Plot the distribution of most used contracts for GMX on Arbitrum
+plot_contractsdistribution(gmx, 'GMX', 'Arbitrum')
+```
+
+## Number of Unique Addresses per Day
+
+```python
+# Calculate and plot the number of unique addresses per day for GMX on Arbitrum
+gmx_unique = protocol_uniqueaddresses(gmx)
+plot_uniqueaddresses(gmx_unique, 'GMX (Arbitrum)')
+```
+
+```markdown
+# Get Transactions Per Day Chart for zkSync, Optimism, Arbitrum, and Polygon
+
+## Overview
+
+This code snippet retrieves transaction data for zkSync, Optimism, Arbitrum, and Polygon, and plots transactions per day for each of these blockchain networks.
+
+## Code Snippet
+
+The code consists of several sections for data retrieval, data preprocessing, and visualization. Below is a summary of each section:
+
+### zkSync Transactions
+
+```python
+# Retrieve zkSync transaction data and aggregate transactions per day
+zksync_txs = all_zksync.groupby(all_zksync['block_time']).agg({'count'})
+zksync_txs = zksync_txs[zksync_txs.index < datetime.datetime(2023, 7, 3)]
+```
+
+### Optimism Transactions
+
+```python
+# Retrieve Optimism transaction data and aggregate transactions per day
+txs_op = all_op.groupby(all_op['block_time']).agg({'count'})
+```
+
+### Polygon and Arbitrum Transactions (Visualization)
+
+The code includes visualization of transactions for Polygon and Arbitrum for the first 100 days after their respective launches.
+
+### Comparison of Transactions
+
+```python
+# Comparison of transactions per day for Polygon, Arbitrum, zkSync, and Optimism
+compare_txs = pd.DataFrame(columns=['Day', 'Polygon_txs', 'Arbitrum_txs', 'zkSync_txs', 'Optimism_txs'])
+# ...
+```
+
+### Normalized Comparison of Transactions
+
+```python
+# Normalized comparison of transactions per day for Polygon, Arbitrum, zkSync, and Optimism
+compare_txs_norm = pd.DataFrame(columns=['Day', 'Polygon_txs', 'Arbitrum_txs', 'zkSync_txs', 'Optimism_txs'])
+# ...
+```
+
+### Analysis of Transactions
+
+The code includes analysis sections for zkSync Era and Polygon transactions.
+
+### Number of Smart Contracts Created
+
+The code analyzes the number of smart contracts created on Arbitrum and Polygon and visualizes the data.
+
+## Usage
+
+You can use this code to retrieve and analyze transaction data for zkSync, Optimism, Arbitrum, and Polygon. Additionally, it provides visualizations to help you understand transaction trends and smart contract creations on these blockchain networks.
+
+Feel free to adapt and extend this code as needed for your specific analysis and research.
+
+```
+
+```markdown
+# Address Activity Distribution
+
+## Is there a correlation between gas price and transactions per day?
+
+### Code Snippet
+```python
+zksync_txs
+```
+
+### Function to Create Correlation Data Frame
+```python
+def create_corr_df(chain):
+    '''
+    Create a correlation heatmap for the various variables in a blockchain's transaction data
+    '''
+    temp_corr = pd.DataFrame(columns=['block_time','txs','gas_price','unique_addresses','contracts_deployed'])
+    dates = np.unique([d for d in chain['block_time']])
+    temp_corr['block_time'] = dates
+    
+    #txs
+    temp_txs = chain.copy()
+    temp_txs = temp_txs.groupby(temp_txs['block_time']).agg({'count'})
+    temp_txs = temp_txs.reset_index()
+    temp_corr['txs'] = temp_txs[('success','count')].to_list()
+    
+    #gas_price
+    temp_corr['gas_price'] = create_gasprice_df(chain)['gas_price_gwei'].to_list()
+    
+    #unique addresses
+    temp_uniqueaddresses = {}
+
+    for d in dates:
+        temp = chain[chain['block_time']==d]
+        n_unique = temp['from'].nunique()
+        temp_uniqueaddresses[d] = n_unique
+        
+    uniqueaddresses_temp = pd.DataFrame.from_dict({'block_time':temp_uniqueaddresses.keys(),
+                                 'counts':temp_uniqueaddresses.values()})
+    
+    temp_corr['unique_addresses'] = uniqueaddresses_temp['counts'].to_list()
+    
+    #!!!number of contracts deployed - zkSync doesn't have chain data on Scroll officially
+    
+    return temp_corr
+```
+
+### Create Correlation Data Frame
+```python
+corr_zksync = create_corr_df(all_zksync)
+```
+
+### Correlation Data Frame
+```python
+corr_zksync
+```
+
+### Function to Plot Correlation between Transactions and Gas Price
+```python
+def plot_txs_gasprice_corr(corr_df,chain_name):
+    #Corr. between txs and gas price
+    plt.figure()
+    sns.lmplot(x='txs',y='gas_price',data=corr_df,scatter_kws={'color':'blue'},line_kws={'color': 'red'})
+    plt.title(f"{chain_name}: Transactions vs. Gas Price (Gwei)")
+    plt.xlabel('Transactions per day')
+    plt.ylabel('Gas price (gwei)')
+    corrcoef_temp = stats.pearsonr(corr_df['txs'], corr_df['gas_price'])
+    plt.text(corr_df['txs'].iloc[corr_df['txs'].idxmax()], corr_df['gas_price'].iloc[corr_df['gas_price'].idxmax()], f"r={round(corrcoef_temp[0],2)}",ha='right', va='top')
+```
+
+### Plot Correlation between Transactions and Gas Price for zkSync Era
+```python
+plot_txs_gasprice_corr(corr_zksync,'zkSync Era')
+```
+
+```markdown
+## Analysis of Protocol Distribution (Continued)
+
+### Plot Top 20 Protocol Distribution for zkSync Era
+```python
+plot_topn_protocoldistribution(contracts_zksync,"zkSync Era",20)
+```
+
+### Plot Protocol Transaction Share for zkSync Era
+```python
+plot_protocolmarketshare(contracts_zksync,"zkSync Era",20)
+```
+
+### Plot Protocol Activity Over Time for zkSync Era
+```python
+plot_protocolactivity(contracts_zksync,"zkSync Era",20)
+```
+
+## Analysis of Protocol Distribution for Polygon
+
+### Load Protocol Data for Polygon
+```python
+poly_protocols = pd.read_csv('/Users/cyrusleung/Desktop/Scroll/Chains Data/polygon txs/protocols/protocols_5-30_9-9.csv')
+poly_protocols['block_time'] = poly_protocols['block_time'].map(lambda x: x.split()[0])
+poly_protocols['block_time'] = pd.to_datetime(poly_protocols['block_time'],format='%Y-%m-%d')
+```
+
+### Sort and Clean Protocol Data for Polygon
+```python
+poly_protocols.sort_values(by='block_time',ascending=True,inplace=True)
+poly_protocols = poly_protocols.drop_duplicates(subset=['hash'], keep='first')
+```
+
+### Plot Protocol Distribution for Polygon
+```python
+plot_protocoldistribution(poly_protocols,'Polygon')
+```
+
+### Plot Top 20 Protocol Distribution for Polygon
+```python
+plot_topn_protocoldistribution(poly_protocols,'Polygon',20)
+```
+
+### Plot Protocol Transaction Share for Polygon
+```python
+plot_protocolmarketshare(poly_protocols,'Polygon',20)
+```
+
+### Plot Protocol Activity Over Time for Polygon
+```python
+plot_protocolactivity(poly_protocols,'Polygon',20)
+```
+
+## Conclusion
+
+This documentation covers an analysis of transaction data and protocol distribution for the Optimism, Arbitrum, zkSync Era, and Polygon chains. It includes correlation analysis between transaction data, visualization of protocol distribution, and insights into the percentage of contract deployments in transactions.
+
+For any further questions or assistance, please don't hesitate to reach out.
+```
+
 
 
