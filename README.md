@@ -140,65 +140,286 @@ plt.title('Polygon transactions per day')
 
 The above code is followed by similar sections for other blockchain chains, including Arbitrum, zkSync Era, and Optimism, where data preprocessing and analysis are performed. Each section loads, preprocesses, and analyzes data from the respective blockchain chain.
 
-Certainly! Here's the documentation for your code in markdown format:
 
-```markdown
-# Acquisition: How Many Users Does Each Protocol Bring?
-
-## `first_time_users_protocol(protocol_df)`
-
-This function takes a dataframe containing blockchain protocol data and returns two dataframes:
-- `first_time_users_per_protocol`: Contains the number of first-time users each protocol attracted to the chain.
-- `first_time_users_per_protocol_pct`: Contains the percentage of total new users each protocol brought to the chain.
-
-## `plot_first_time_users_protocol(df, df_pct, topn, chain_name)`
-
-This function plots the number of first-time users each protocol attracted to the chain and their percentage of total new users.
-- Inputs:
-  - `df`: Dataframe containing the number of first-time users per protocol.
-  - `df_pct`: Dataframe containing the percentage of total new users per protocol.
-  - `topn`: Number of top protocols to include in the plot.
-  - `chain_name`: Name of the blockchain chain.
-
-## Arbitrum
-
-### Number of First-Time Users
-
-```python
-first_time_users_per_protocol_arb, first_time_users_per_protocol_pct_arb = first_time_users_protocol(protocol_arb)
-```
-
-### User Lifespan Analysis
-
-```python
-users_lifespan_by_protocol_arb = avg_users_lifespan_by_protocol(protocols_arb)
-```
-
-### User Frequency Analysis
-
-```python
-plot_chain_user_freq_topn(protocol_arb, 15, 'Arbitrum')
-```
-
-## Optimism
-
-### Number of First-Time Users
-
-```python
-first_time_users_per_protocol_op, first_time_users_per_protocol_pct_op = first_time_users_protocol(protocols_op)
-```
-
-### User Lifespan Analysis
-
-```python
-users_lifespan_by_protocol_op_df = avg_users_lifespan_by_protocol(protocols_op, topn=20)
-```
-
-### User Frequency Analysis
-
-```python
-plot_chain_user_freq_topn(protocols_op, 15, 'Optimism')
 ```
 
 This documentation provides an overview of the functions and analyses conducted on user acquisition and retention for Arbitrum and Optimism blockchain chains.
 ```
+
+```markdown
+# Acquisition: How Many Users Does Each Protocol Bring?
+
+## Functions
+
+### `first_time_users_protocol(protocol_df)`
+
+Input the dataframe containing the blockchain's protocols' data and return a dataframe containing how many first-time users each protocol attracted to the chain.
+
+### `plot_first_time_users_protocol(df, df_pct, topn, chain_name)`
+
+Plot the number of first-time users each protocol attracted to the chain.
+
+## Arbitrum
+
+### Number of First-Time Users Each Protocol Attracted to Arbitrum
+
+```python
+#Number of first time users each protocol attracted to Arbitrum
+first_time_users_per_protocol_arb, first_time_users_per_protocol_pct_arb = first_time_users_protocol(protocol_arb)
+```
+
+### Plot Those First-Time Users
+
+```python
+#Plot those first time users
+plot_first_time_users_protocol(first_time_users_per_protocol_arb, first_time_users_per_protocol_pct_arb, topn=20, chain_name='Arbitrum')
+```
+
+## Optimism
+
+### Number of First-Time Users Each Protocol Attracted to Optimism
+
+```python
+#Number of first time users each protocol attracted to Arbitrum
+first_time_users_per_protocol_op, first_time_users_per_protocol_pct_op = first_time_users_protocol(protocols_op)
+```
+
+### Plot Those First-Time Users Per Protocol
+
+```python
+#Plot those first time users per protocol
+plot_first_time_users_protocol(first_time_users_per_protocol_op, first_time_users_per_protocol_pct_op, 20, 'Optimism')
+```
+
+# User Retention (Average Lifespan Users)
+
+## Functions
+
+### `calculate_lifespan(user, df)`
+
+Calculate the lifespan of a user.
+
+### `users_lifespan_per_protocol(protocol, users_by_protocol, protocols_df, sample_size=385)`
+
+Calculate the lifespan of each user attracted to the chain by each respective protocol.
+
+### `avg_users_lifespan_by_protocol(protocols_df, topn=20)`
+
+Return the mean, median, and standard deviation of each protocol's users' lifespan.
+
+### `plot_users_lifespan_by_protocol(df, chain_name)`
+
+Plot each protocol's user lifespan, mean, median, and standard deviation.
+
+### `plot_avg_users_lifespan_by_protocol(df, chain_name, ordered=False)`
+
+Plot just the mean user lifespan.
+
+### `plot_avg_users_lifespan_by_protocol_sns(df, chain_name, ordered=False)`
+
+Same as the function above but use seaborn library for a different style.
+
+### `chain_user_freq_t10(protocol_df)`
+
+Number of one-time, two-time, etc. all the way to ten-time users on a chain.
+
+### `chain_user_freq(protocol_df, topn)`
+
+Number of one-time, two-time, etc. users on a chain, you can specify how many X-time users to calculate up to.
+
+### `chain_user_freq_pct(protocol_df, topn)`
+
+Percentage of total users are one-time, two-time, three-time, etc. users on a chain.
+
+### `plot_chain_user_freq(pop_df, title)`
+
+Plot number of one-time,... users.
+
+### `plot_chain_user_freq_topn(protocol_df, topn, title)`
+
+Plot number of one-time,... users, specifying X time users.
+
+### `plot_chain_user_freq_topn_pct(protocol_df, topn, title)`
+
+Plot percentage of total users who are one-time, etc. users, specifying X time users.
+```
+Here's a GitHub documentation in markdown format for your code:
+
+```markdown
+# Protocol User Retention
+
+## Functions
+
+### `userretention_mom(protocol_df, app='Dune')`
+
+For an interval of every month, calculate the percentage of users that returned.
+
+- `protocol_df`: DataFrame containing the blockchain's protocols' data.
+- `app`: Application identifier ('Dune' or 'Transpose'). Default is 'Dune'.
+
+### `plot_userretention(ur_df, title, calendar_dts=True)`
+
+Plot user retention month-over-month.
+
+- `ur_df`: User retention DataFrame.
+- `title`: Title for the plot.
+- `calendar_dts`: Boolean to specify if month labels should be calendar dates (True) or sequential numbers (False). Default is True.
+
+## Polygon
+
+### User Retention Calculation for Polygon
+
+```python
+userretention_poly = userretention_mom(poly, app='Transpose')
+```
+
+### Plot User Retention for Polygon
+
+```python
+plot_userretention(userretention_poly, 'Polygon')
+```
+
+## Arbitrum
+
+### User Retention Calculation for Arbitrum
+
+```python
+userretention_arb = userretention_mom(all_arb, app='Transpose')
+```
+
+### Plot User Retention for Arbitrum
+
+```python
+plot_userretention(userretention_arb, title='Arbitrum')
+```
+
+## zkSync
+
+### User Retention Calculation for zkSync
+
+```python
+userretention_zksync = userretention_mom(all_zksync)
+```
+
+### Plot User Retention for zkSync
+
+```python
+plot_userretention(userretention_zksync, title='zkSync')
+```
+
+## Optimism
+
+### User Retention Calculation for Optimism
+
+```python
+userretention_op = userretention_mom(all_op)
+```
+
+### Plot User Retention for Optimism
+
+```python
+plot_userretention(userretention_op, title='Optimism')
+```
+Here's a GitHub documentation in markdown format for your code:
+
+```markdown
+# Uniswap Data on Optimism and Arbitrum
+
+## Optimism
+
+### Data Import and Preprocessing
+
+```python
+#contracts
+path = 'Chains Data/optimism/uniswap'
+uniswap_op = pd.read_csv(path + 'uniswap_op.csv')
+uniswap_op['block_time'] = uniswap_op['block_time'].map(lambda x: datetime.datetime.strptime(x, '%Y-%m-%d'))
+```
+
+### Activity
+
+```python
+uniswap_op_txs = protocol_txs(uniswap_op)
+plot_protocoltxs(uniswap_op_txs, 'Uniswap (Optimism)', datetime.datetime(2021, 12, 16))
+```
+
+### Most Used Contracts
+
+```python
+plot_contractsdistribution(uniswap_op, 'Uniswap', 'Optimism')
+```
+
+### Unique Addresses
+
+```python
+uniswap_op_uniqueaddresses = protocol_uniqueaddresses(uniswap_op)
+plot_uniqueaddresses(uniswap_op_uniqueaddresses, 'Uniswap (Optimism)')
+```
+
+### User Retention
+
+```python
+userretention_pct = userretention_mom(uniswap_op)
+plot_userretention(userretention_pct, 'Uniswap (Optimism)', calendar_dts=True)
+```
+
+### Protocol Popularity
+
+```python
+protpopt10_op = protocol_popularity_t10(uniswap_op)
+protpop_op = protocol_popularity(uniswap_op, 100)
+
+plot_protocolpopularity(protpopt10_op, 'Uniswap (Optimism)')
+plot_protocolpopularity(protpop_op, 'Uniswap (Optimism)')
+```
+
+## Arbitrum
+
+### Data Import and Preprocessing
+
+```python
+#contracts
+path = 'Chains Data/arbitrum txs/uniswap'
+uniswap_arb = pd.read_csv(path + 'uniswap_arb.csv')
+uniswap_arb['block_time'] = uniswap_arb['block_time'].map(lambda x: datetime.datetime.strptime(x, '%Y-%m-%d'))
+```
+
+### Activity
+
+```python
+uniswap_txs_arb = protocol_txs(uniswap_arb)
+uniswap_txs_arb = uniswap_txs_arb.iloc[:-1]
+plot_protocoltxs(uniswap_txs_arb, 'Uniswap (Arbitrum)', datetime.datetime(2021, 8, 31))
+```
+
+### Most Used Contracts
+
+```python
+plot_contractsdistribution(uniswap_arb, 'Uniswap', 'Arbitrum')
+```
+
+### Unique Addresses
+
+```python
+uniswap_unique_arb = protocol_uniqueaddresses(uniswap_arb)
+plot_uniqueaddresses(uniswap_unique_arb, 'Uniswap (Arbitrum)')
+```
+
+### User Retention
+
+```python
+userretention_pct = userretention_mom(uniswap_arb)
+plot_userretention(userretention_pct, 'Uniswap (Arbitrum)', calendar_dts=True)
+```
+
+### Protocol Popularity
+
+```python
+protpopt10_arb = protocol_popularity_t10(uniswap_arb)
+protpop_arb = protocol_popularity(uniswap_arb, 100)
+
+plot_protocolpopularity(protpopt10_arb, 'Uniswap (Arbitrum)')
+plot_protocolpopularity(protpop_arb, 'Uniswap (Arbitrum)')
+```
+
+
