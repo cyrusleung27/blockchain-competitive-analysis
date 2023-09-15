@@ -8,6 +8,9 @@ Specific metrics regarding Uniswap, GMX dex, Level Finance, and more, are availa
 
 *Please reconfigure the path variables in the Python script for your personal use.
 
+Links to download extensive data on the 4 blockchains:
+https://uchicago.box.com/s/eong5lbi5pkcnpop7ej3hxq6jhqc6pdm
+
 ### Importing Libraries
 
 The code begins by importing several Python libraries that are commonly used for data analysis and visualization. These libraries include Pandas, NumPy, Seaborn, Matplotlib, Datetime, Glob, Plotly, Scipy, OS, Requests, tqdm, and dotenv. Here's a brief explanation of their usage:
