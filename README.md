@@ -1,5 +1,13 @@
 # blockchain-competitive-analysis
 
+This repo contains the code and data necessary to analyze high-level metrics like transactions per day, users per day, average gas price per day, and more, of 4 blockchains — Arbitrum, Optimism, Polygon, and zkSync Era — while also allowing you to visualize the correlations between these parameters. 
+
+This code also allows you to analyze and visualize the top protocols on these chains, synthesize their user acquisition and retention successes -> all of which are vitally insightful to go-to-market business development strategy decisions.
+
+Specific metrics regarding Uniswap, GMX dex, Level Finance, and more, are available.
+
+*Please reconfigure the path variables in the Python script for your personal use.
+
 ### Importing Libraries
 
 The code begins by importing several Python libraries that are commonly used for data analysis and visualization. These libraries include Pandas, NumPy, Seaborn, Matplotlib, Datetime, Glob, Plotly, Scipy, OS, Requests, tqdm, and dotenv. Here's a brief explanation of their usage:
