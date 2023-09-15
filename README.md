@@ -11,6 +11,8 @@ Specific metrics regarding Uniswap, GMX dex, Level Finance, and more, are availa
 Links to download extensive data on the 4 blockchains:
 https://uchicago.box.com/s/eong5lbi5pkcnpop7ej3hxq6jhqc6pdm
 
+Data is pulled from Dune and Transpose.
+
 ### Importing Libraries
 
 The code begins by importing several Python libraries that are commonly used for data analysis and visualization. These libraries include Pandas, NumPy, Seaborn, Matplotlib, Datetime, Glob, Plotly, Scipy, OS, Requests, tqdm, and dotenv. Here's a brief explanation of their usage:
