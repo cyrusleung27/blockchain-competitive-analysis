@@ -1,6 +1,6 @@
 # blockchain-competitive-analysis
 
-This repo contains the code and data necessary to analyze high-level metrics like transactions per day, users per day, average gas price per day, and more, of 4 blockchains — Arbitrum, Optimism, Polygon, and zkSync Era — while also allowing you to visualize the correlations between these parameters. 
+This repo contains the code and data necessary to analyze high-level metrics like transactions per day, users per day, average gas price per day, and more, of 4 blockchains — Arbitrum, Optimism, Polygon, and zkSync Era (their first 100d post-mainnet launch) — while also allowing you to visualize the correlations between these parameters. 
 
 This code also allows you to analyze and visualize the top protocols on these chains, synthesize their user acquisition and retention successes -> all of which are vitally insightful to go-to-market business development strategy decisions.
 
